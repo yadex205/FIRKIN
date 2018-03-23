@@ -8,8 +8,8 @@ OBJDIR  = $(DISTDIR)/object
 SRCDIR  = ./src
 
 PROGRAM = build/firkin
-SOURCES = $(wildcard ./src/*.m)
-OBJECTS = $(patsubst ./src/%.m,./build/object/%.o,$(SOURCES))
+SOURCES = $(wildcard ./src/*.c)
+OBJECTS = $(patsubst ./src/%.c,./build/object/%.o,$(SOURCES))
 
 .PHONY: all
 all: $(PROGRAM)
@@ -31,6 +31,6 @@ $(PROGRAM): $(OBJECTS)
 	cp -r resources build/resources
 	$(CC) $(LDLIBS) -o $@ $^
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.m
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p build/object
 	$(CC) $(CFLAGS) -c $^ -o $@
