@@ -66,6 +66,8 @@ FirkinShader *createShader(void) {
 
   FirkinShader *sdr = (FirkinShader *) malloc(sizeof(FirkinShader));
   sdr->program = program;
+  sdr->uniformLocations = (GLuint *) malloc(sizeof(GLuint) * 1);
+  sdr->uniformLocations[FIRKIN_UNIFORM_TEXSAMPLER_INDEX] = glGetUniformLocation(program, "texSampler");
   return sdr;
 }
 

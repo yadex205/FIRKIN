@@ -3,6 +3,7 @@
 
 #define FIRKIN_ATTRIB_POSITION_INDEX 0
 #define FIRKIN_ATTRIB_TEXCOORD_INDEX 1
+#define FIRKIN_UNIFORM_TEXSAMPLER_INDEX 0
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +13,7 @@
 
 typedef struct _s_FirkinShader {
   GLuint program;
+  GLuint *uniformLocations;
 } FirkinShader;
 
 FirkinShader *createShader(void);
