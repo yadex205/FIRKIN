@@ -1,8 +1,9 @@
 CC      = clang
 CFLAGS  = -g -Wall
-LDLIBS  = -lGLEW -lglfw3 -framework Foundation -framework Cocoa \
+LDLIBS  = -lGLEW -lglfw3 -lavcodec -lavformat -lswresample -lswscale -lavutil \
+          -framework Foundation -framework Cocoa \
           -framework OpenGL -framework IOKit -framework CoreVideo \
-          -F./Syphon-Framework/build/Release -framework Syphon
+          -F./Syphon-Framework/build/Release -framework Syphon \
 
 DISTDIR = ./build
 OBJDIR  = $(DISTDIR)/object
@@ -16,11 +17,11 @@ OBJECTS = $(patsubst ./src/%.c,./build/object/%.o,$(SOURCES))
 all: build
 
 .PHONY: run
-run: $(PROGRAM)
+run: build
 	$(PROGRAM)
 
 .PHONY: debug
-debug: $(PROGRAM)
+debug: build
 	lldb $(PROGRAM)
 
 .PHONY: clean
