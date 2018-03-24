@@ -2,7 +2,7 @@
 #define SHADER_H
 
 #define FIRKIN_ATTRIB_POSITION_INDEX 0
-#define FIRKIN_FRAGDATA_FRAGMENT_INDEX 0
+#define FIRKIN_ATTRIB_TEXCOORD_INDEX 1
 
 #include <stdio.h>
 #include <stdlib.h>

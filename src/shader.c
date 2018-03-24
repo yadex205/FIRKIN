@@ -44,7 +44,7 @@ FirkinShader *createShader(void) {
   glAttachShader(program, vshader);
   glAttachShader(program, fshader);
   glBindAttribLocation(program, FIRKIN_ATTRIB_POSITION_INDEX, "position");
-  glBindFragDataLocation(program, FIRKIN_FRAGDATA_FRAGMENT_INDEX, "fragment");
+  glBindAttribLocation(program, FIRKIN_ATTRIB_TEXCOORD_INDEX, "texCoord");
 
   glLinkProgram(program);
   GLint status;
