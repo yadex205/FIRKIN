@@ -19,10 +19,11 @@ FirkinSyphonServer *createSyphonServer(const char *name, FirkinContext *ctx) {
 }
 
 void publishSyphonTexture(FirkinSyphonServer *fss, FirkinTexture *tex) {
+  GLuint width = tex->width, height = tex->height;
   [(SyphonServer *)fss->server publishFrameTexture:tex->texId
                                      textureTarget:GL_TEXTURE_2D
-                                       imageRegion:NSMakeRect(0, 0, 3, 2)
-                                 textureDimensions:NSMakeSize(3, 2)
+                                       imageRegion:NSMakeRect(0, 0, width, height)
+                                 textureDimensions:NSMakeSize(width, height)
                                            flipped:YES];
 }
 

@@ -8,6 +8,7 @@
 
 typedef struct _s_FirkinTexture {
   GLuint texId;
+  GLuint width, height;
 } FirkinTexture;
 
 FirkinTexture *createTetxture(void);

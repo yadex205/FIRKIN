@@ -19,6 +19,8 @@ FirkinTexture *createTetxture(void) {
 void setTexturePixels(FirkinTexture *tex, GLuint width, GLuint height, GLenum fmt, GLubyte *data) {
   glBindTexture(GL_TEXTURE_2D, tex->texId);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, fmt, GL_UNSIGNED_BYTE, data);
+  tex->width = width;
+  tex->height = height;
   glBindTexture(GL_TEXTURE_2D, 0);
 };
 
