@@ -39,14 +39,16 @@ FirkinVideo *loadVideo(const char *path) {
   video->vCodecCtx = vCodecCtx;
   video->vStreamIndex = vStreamIndex;
   video->rawFrame = av_frame_alloc();
-  video->packet = (AVPacket *) malloc(sizeof(AVPacket));
+  video->rgbFrame = av_frame_alloc();
+  video->packet = av_packet_alloc();
 
   return video;
 }
 
 void releaseVideo(FirkinVideo *video) {
-  free(video->packet);
+  av_packet_free(&(video->packet));
   av_free(video->rawFrame);
+  av_free(video->rgbFrame);
   avcodec_close(video->vCodecCtx);
   avformat_close_input(&(video->fmtCtx));
   free(video);

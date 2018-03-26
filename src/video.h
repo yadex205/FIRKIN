@@ -7,7 +7,7 @@
 typedef struct _s_FirkinVideo {
   AVFormatContext *fmtCtx;
   AVCodecContext *vCodecCtx;
-  AVFrame *rawFrame;
+  AVFrame *rawFrame, *rgbFrame;
   AVPacket *packet;
   int vStreamIndex;
 } FirkinVideo;
