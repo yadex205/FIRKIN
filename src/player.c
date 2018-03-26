@@ -32,13 +32,14 @@ void stopMedia(FirkinPlayer *player) {
     libvlc_media_player_stop(player->mplayer);
     libvlc_media_player_release(player->mplayer);
   }
+  player->mplayer = NULL;
 }
 
 void setMediaFrameToTexture(FirkinPlayer *player, FirkinTexture *tex) {
   setTexturePixels(tex, 1280, 720, GL_RGB, player->pixels);
 }
 
-void terminlatePlayer(FirkinPlayer *player) {
+void terminatePlayer(FirkinPlayer *player) {
   stopMedia(player);
   libvlc_release(player->libvlc);
 }

@@ -40,6 +40,7 @@ int main(void) {
     stopMedia(player);
   }
 
+  terminatePlayer(player);
   terminateSyphonServer(fss);
   terminateTexture(tex);
   terminateQuad(quad);
