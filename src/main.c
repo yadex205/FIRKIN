@@ -1,4 +1,3 @@
-#include <GL/glew.h>
 #include "app.h"
 #include "context.h"
 #include "shader.h"
