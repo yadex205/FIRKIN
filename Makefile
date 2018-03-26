@@ -1,19 +1,27 @@
-CC      = clang
-CFLAGS  = -g -Wall -std=c11 -F./Syphon-Framework/build/Release
-LDLIBS  = -lGLEW -lglfw3 -lavcodec -lavformat -lswresample -lswscale -lavutil \
-          -framework Foundation -framework Cocoa \
-          -framework OpenGL -framework IOKit -framework CoreVideo \
-          -F./Syphon-Framework/build/Release -framework Syphon \
+RELEASE ?= 0
 
-DISTDIR = ./build
-OBJDIR  = $(DISTDIR)/object
-SRCDIR  = ./src
+CC      := clang
+CFLAGS  := -std=c11 -F./Syphon-Framework/build/Release
+LDLIBS  := -lGLEW -lglfw3 -lavcodec -lavformat -lswresample -lswscale -lavutil \
+           -framework Foundation -framework Cocoa \
+           -framework OpenGL -framework IOKit -framework CoreVideo \
+           -F./Syphon-Framework/build/Release -framework Syphon \
 
-PROGRAM = build/bin/firkin
-SOURCES = $(wildcard ./src/*.c) $(wildcard ./src/*.m)
-OBJECTS = $(patsubst ./src/%.c,./build/object/%.o,$(filter ./src/%.c,$(SOURCES))) \
-          $(patsubst ./src/%.m,./build/object/%.o,$(filter ./src/%.m, $(SOURCES)))
+ifeq ($(RELEASE), 0)
+  CFLAGS := -g -Wall $(CFLAGS)
+else
+  CFLAGS := -O2 $(CFLAGS)
+endif
 
+
+DISTDIR := ./build
+OBJDIR  := $(DISTDIR)/object
+SRCDIR  := ./src
+
+PROGRAM := build/bin/firkin
+SOURCES := $(wildcard ./src/*.c) $(wildcard ./src/*.m)
+OBJECTS := $(patsubst ./src/%.c,./build/object/%.o,$(filter ./src/%.c,$(SOURCES))) \
+           $(patsubst ./src/%.m,./build/object/%.o,$(filter ./src/%.m, $(SOURCES)))
 
 .PHONY: all
 all: build
