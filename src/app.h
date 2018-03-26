@@ -6,7 +6,6 @@
 #include <errno.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <libavformat/avformat.h>
 
 typedef struct _s_FirkinApp {
   int glfwInitialized;

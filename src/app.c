@@ -10,8 +10,6 @@ FirkinApp* createApp(void) {
     return NULL;
   }
 
-  av_register_all();
-
   app->glfwInitialized = 1;
   glewExperimental = GL_TRUE;
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);

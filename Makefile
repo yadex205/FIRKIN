@@ -3,7 +3,7 @@ RELEASE ?= 0
 CC      := clang
 CFLAGS  := -std=c11 -F./Syphon-Framework/build/Release -I./deps/vlc/include
 LDLIBS  :=  -Wl,-rpath -Wl,@executable_path/../lib \
-            -lGLEW -lglfw3 -lavcodec -lavformat -lswresample -lswscale -lavutil \
+            -lGLEW -lglfw3 \
            -framework Foundation -framework Cocoa \
            -framework OpenGL -framework IOKit -framework CoreVideo \
            -F./Syphon-Framework/build/Release -framework Syphon \
