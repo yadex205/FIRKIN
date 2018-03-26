@@ -1,5 +1,5 @@
 CC      = clang
-CFLAGS  = -g -Wall -F./Syphon-Framework/build/Release
+CFLAGS  = -g -Wall -std=c11 -F./Syphon-Framework/build/Release
 LDLIBS  = -lGLEW -lglfw3 -lavcodec -lavformat -lswresample -lswscale -lavutil \
           -framework Foundation -framework Cocoa \
           -framework OpenGL -framework IOKit -framework CoreVideo \

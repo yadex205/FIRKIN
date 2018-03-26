@@ -29,13 +29,13 @@ int main(void) {
     readVideoFrame(video);
 
     while(shouldContextClose(ctx) == GL_FALSE) {
-      glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-      glClear(GL_COLOR_BUFFER_BIT);
-      useShader(sdr);
-      useTexture(tex, sdr);
-      publishSyphonTexture(fss, tex);
-      drawQuad(quad);
-      finalizeContextLoop(ctx);
+      if (initContextLoop(ctx) == GL_TRUE) {
+        useShader(sdr);
+        useTexture(tex, sdr);
+        publishSyphonTexture(fss, tex);
+        drawQuad(quad);
+        finalizeContextLoop(ctx);
+      }
     }
 
     releaseVideo(video);
