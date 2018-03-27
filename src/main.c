@@ -6,6 +6,14 @@
 #include "player.h"
 #include "syphon.h"
 
+FirkinPlayer *player;
+
+static void dropCallback(GLFWwindow *window, int count, const char **paths) {
+  if (count < 1) { return; }
+
+  playMedia(player, paths[0]);
+}
+
 int main(void) {
   FirkinApp *app = createApp();
   FirkinContext *ctx = createContext();
@@ -14,7 +22,6 @@ int main(void) {
   FirkinShader *sdr = createShader();
   FirkinQuad *quad = createQuad();
   FirkinTexture *tex = createTetxture();
-  FirkinPlayer *player = createPlayer();
   FirkinSyphonServer *fss = createSyphonServer("Firkin", ctx);
   unsigned char pixels[24] = { 255, 0, 0, 255, 0, 255, 0, 255, 0, 0, 255, 255,
                                0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 255 };
@@ -24,20 +31,19 @@ int main(void) {
   setQuadAttribPointer(quad);
   useTexture(tex, sdr);
 
-  if (playMedia(player, "/Users/canon/Downloads/awa.mp4") == GL_TRUE) {
-    while(shouldContextClose(ctx) == GL_FALSE) {
-      if (initContextLoop(ctx) == GL_TRUE) {
-        setMediaFrameToTexture(player, tex);
+  player = createPlayer();
+  setDropCBForContext(ctx, dropCallback);
 
-        useShader(sdr);
-        useTexture(tex, sdr);
-        publishSyphonTexture(fss, tex);
-        drawQuad(quad);
-        finalizeContextLoop(ctx);
-      }
+  while(shouldContextClose(ctx) == GL_FALSE) {
+    if (initContextLoop(ctx) == GL_TRUE) {
+      setMediaFrameToTexture(player, tex);
+
+      useShader(sdr);
+      useTexture(tex, sdr);
+      publishSyphonTexture(fss, tex);
+      drawQuad(quad);
+      finalizeContextLoop(ctx);
     }
-
-    stopMedia(player);
   }
 
   terminatePlayer(player);

@@ -11,11 +11,12 @@ FirkinPlayer *createPlayer(void) {
   FirkinPlayer *player = (FirkinPlayer *) malloc(sizeof(FirkinPlayer));
   player->libvlc = libvlc_new(2, vlcArgv);
   player->mplayer = NULL;
-  player->pixels = (unsigned char *) malloc(sizeof(unsigned char) * 1280 * 720 * 4);
+  player->pixels = (unsigned char *) malloc(sizeof(unsigned char) * 1280 * 720 * 3);
+  memset(player->pixels, '\0', 1280 * 720 * 3);
   return player;
 }
 
-GLboolean playMedia(FirkinPlayer *player, const char *path) {
+void playMedia(FirkinPlayer *player, const char *path) {
   stopMedia(player);
 
   libvlc_media_t *media = libvlc_media_new_path(player->libvlc, path);
@@ -24,7 +25,6 @@ GLboolean playMedia(FirkinPlayer *player, const char *path) {
   libvlc_video_set_callbacks(player->mplayer, lock, NULL, NULL, (void *) player->pixels);
   libvlc_video_set_format(player->mplayer, "RV24", 1280, 720, 1280*3);
   libvlc_media_player_play(player->mplayer);
-  return GL_TRUE;
 }
 
 void stopMedia(FirkinPlayer *player) {
@@ -36,6 +36,7 @@ void stopMedia(FirkinPlayer *player) {
 }
 
 void setMediaFrameToTexture(FirkinPlayer *player, FirkinTexture *tex) {
+  if (player->pixels[0] == '\0') { return; }
   setTexturePixels(tex, 1280, 720, GL_RGB, player->pixels);
 }
 

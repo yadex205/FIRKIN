@@ -22,5 +22,6 @@ void terminateContext(FirkinContext *ctx);
 
 GLboolean initContextLoop(FirkinContext *ctx);
 void finalizeContextLoop(FirkinContext *ctx);
+void setDropCBForContext(FirkinContext *ctx, GLFWdropfun callback);
 
 #endif /* CONTEXT_H */

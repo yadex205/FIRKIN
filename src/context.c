@@ -67,3 +67,7 @@ void finalizeContextLoop(FirkinContext *ctx) {
   glfwSwapBuffers(ctx->window);
   glfwPollEvents();
 }
+
+void setDropCBForContext(FirkinContext *ctx, GLFWdropfun callback) {
+  glfwSetDropCallback(ctx->window, callback);
+}

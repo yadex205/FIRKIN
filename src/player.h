@@ -12,7 +12,7 @@ typedef struct _s_FirkinPlayer {
 } FirkinPlayer;
 
 FirkinPlayer *createPlayer(void);
-GLboolean playMedia(FirkinPlayer *player, const char *path);
+void playMedia(FirkinPlayer *player, const char *path);
 void stopMedia(FirkinPlayer *player);
 void setMediaFrameToTexture(FirkinPlayer *player, FirkinTexture *tex);
 void terminatePlayer(FirkinPlayer *player);
