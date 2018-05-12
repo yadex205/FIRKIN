@@ -1,13 +1,15 @@
 RELEASE ?= 0
 
+VLC_DIR := ./deps/vlc/build/vlc_install_dir
+
 CC      := clang
-CFLAGS  := -std=c11 -F./Syphon-Framework/build/Release -I./deps/vlc/include
+CFLAGS  := -std=c11 -F./Syphon-Framework/build/Release -I$(VLC_DIR)/include
 LDLIBS  :=  -Wl,-rpath -Wl,@executable_path/../lib \
             -lGLEW -lglfw3 \
            -framework Foundation -framework Cocoa \
            -framework OpenGL -framework IOKit -framework CoreVideo \
            -F./Syphon-Framework/build/Release -framework Syphon \
-           -L./deps/vlc/lib -lvlc
+           -L$(VLC_DIR)/lib -lvlc
 
 ifeq ($(RELEASE), 0)
   CFLAGS := -g -Wall $(CFLAGS)
@@ -23,10 +25,6 @@ PROGRAM := build/bin/firkin
 SOURCES := $(wildcard ./src/*.c) $(wildcard ./src/*.m)
 OBJECTS := $(patsubst ./src/%.c,./build/object/%.o,$(filter ./src/%.c,$(SOURCES))) \
            $(patsubst ./src/%.m,./build/object/%.o,$(filter ./src/%.m, $(SOURCES)))
-VENDORS := build/Frameworks/Syphon.framework \
-           build/lib/libvlc.dylib \
-           build/lib/libvlccore.dylib \
-           build/lib/vlc
 
 .PHONY: all
 all: build
@@ -44,7 +42,7 @@ clean:
 	rm -rf build/*
 
 .PHONY: build
-build: $(PROGRAM) $(VENDORS)
+build: $(PROGRAM) build/Frameworks/Syphon.framework vlc_libs
 
 $(PROGRAM): $(OBJECTS)
 	mkdir -p build/bin
@@ -55,12 +53,10 @@ build/Frameworks/Syphon.framework: Syphon-Framework/build/Release/Syphon.framewo
 	mkdir -p build/Frameworks
 	cp -r Syphon-Framework/build/Release/Syphon.framework build/Frameworks
 
-build/lib/libvlc%: deps/vlc/lib/libvlc%
-	mkdir -p build/lib
-	cp $^ $@
-
-build/lib/vlc: deps/vlc/lib/vlc
-	cp -r $^ $@
+.PHONY:vlc_libs
+vlc_libs:
+	mkdir -p ./build/lib
+	cp -r $(VLC_DIR)/lib/* ./build/lib
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p build/object
@@ -69,7 +65,3 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 $(OBJDIR)/%.o: $(SRCDIR)/%.m
 	mkdir -p build/object
 	$(CC) $(CFLAGS) -c $^ -o $@
-
-Syphon-Framework/build/Release/Syphon.framework:
-	cd Syphon-Framework; git checkout core-profile
-	cd Syphon-Framework; xcodebuild -project Syphon.xcodeproj -target Syphon

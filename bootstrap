@@ -1,0 +1,48 @@
+#!/bin/bash
+
+VLC_VERSION=3.0.1
+
+if [ ! -e ./deps/vlc ]; then
+    VLC_SRCURL=http://download.videolan.org/pub/videolan/vlc/${VLC_VERSION}/vlc-${VLC_VERSION}.tar.xz
+    VLC_ARCHIVE=`basename ${VLC_SRCURL}`
+
+    if [ ! -e ./tmp/${VLC_ARCHIVE} ]; then
+        echo "Downloading VLC sources"
+        curl -o ./tmp/${VLC_ARCHIVE} $VLC_SRCURL
+        curl -o ./tmp/${VLC_ARCHIVE}.sha256 ${VLC_SRCURL}.sha256
+    fi
+
+    pushd tmp
+    sha256sum -c ${VLC_ARCHIVE}.sha256
+    if [ $? -ne 0 ]; then
+        echo 'ERROR: Checksum failed!'
+        exit 1
+    fi
+    popd
+
+    echo "Extracting VLC sources"
+    tar xf ./tmp/${VLC_ARCHIVE} -C ./deps
+    mv ./deps/vlc-${VLC_VERSION} ./deps/vlc
+
+    echo "VLC sources ready"
+fi
+
+echo "Build VLC"
+
+mkdir -p deps/vlc/build
+pushd deps/vlc/build
+
+../extras/package/macosx/build.sh -j4
+
+popd
+
+echo 'Build Syphon'
+
+pushd Syphon-Framework
+
+git checkout core-profile
+xcodebuild -project Syphon.xcodeproj -target Syphon
+
+popd
+
+echo "Bootstraped!"
